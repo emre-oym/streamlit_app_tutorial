@@ -17,7 +17,7 @@ def load_pickles(model_pickle_path, label_encoder_pickle_path):
 
 
 def pre_process_data(df, label_encoder_dict):
-    df.drop("customerID", axis=1, inplace=True)
+    # df.drop("customerID", axis=1, inplace=True)
     for col in df.columns:
         if col in list(label_encoder_dict.keys()):
             column_le = label_encoder_dict[col]
@@ -48,10 +48,82 @@ def generate_predictions(test_df):
 if __name__ == '__main__':
     # make the application
     st.title("Customer Churn Prediction")
-    all_customers_training_data = pd.read_csv("./data/holdout_data.csv")
-    all_customers_data = all_customers_training_data.drop(columns="Churn")
-    chosen_customer = st.selectbox("Select the customer you are speaking to:", all_customers_training_data.loc[:, "customerID"])
-    chosen_customer_data = all_customers_data.loc[all_customers_data.loc[:, 'customerID']==chosen_customer]
+    # all_customers_training_data = pd.read_csv("./data/holdout_data.csv")
+    # all_customers_data = all_customers_training_data.drop(columns="Churn")
+    # chosen_customer = st.selectbox("Select the customer you are speaking to:", all_customers_training_data.loc[:, "customerID"])
+    # chosen_customer_data = all_customers_data.loc[all_customers_data.loc[:, 'customerID']==chosen_customer]
+    # # visualizing cutomer's data
+    # st.table(chosen_customer_data)
+
+
+    # making customer data input
+    gender = st.selectbox("Select customer's gender :",
+                         ['Female', 'Male'])
+    senior_citizen_input = st.selectbox('Is customer a senior citizen? :',
+                                     ["No", "Yes"])
+    if senior_citizen_input == "Yes":
+        senior_citizen = 1
+    else:
+        senior_citizen = 0
+    partner = st.selectbox('Does the customer have a partner? :',
+                             ["No", "Yes"])
+    dependents = st.selectbox('Does the customer have dependents? :',
+                              ["Yes", "No"])
+    tenure = st.slider('How many months has the customer been with the company? :',
+                       min_value=0, max_value=72, value=24)
+    phone_service = st.selectbox('Does the customer have phone service? :',
+                             ["No", "Yes"])
+    multiple_lines = st.selectbox('Does the customer have multiple lines? :',
+                                 ["No", "Yes", "No phone service"])
+    internet_service = st.selectbox('What type of internet service does the customer have? :',
+                                  ["No", "DSL", "Fiber optic"])
+    online_security = st.selectbox('Does the customer have online security? :',
+                                  ["No", "Yes", "No internet service"])
+    online_backup = st.selectbox('Does the customer have online? :',
+                                  ["No", "Yes", "No internet service"])
+    device_protection = st.selectbox('Does the customer have device protection? :',
+                                  ["No", "Yes", "No internet service"])
+    tech_support = st.selectbox('Does the customer have tech support? :',
+                                  ["No", "Yes", "No internet service"])
+    streaming_tv = st.selectbox('Does the customer have streaming TV? :',
+                                  ["No", "Yes", "No internet service"])
+    streaming_movies = st.selectbox('Does the customer have streaming movies? :',
+                                  ["No", "Yes", "No internet service"])
+    contract = st.selectbox('What kind of contract does the customer have? :',
+                                  ["Month-to-month", "Two year", "One year"])
+    paperless_billing = st.selectbox('Does the customer have paperless billing? :',
+                                  ["No", "Yes"])
+    payment_method = st.selectbox("What is the customer's payment method? :",
+                                     ["Mailed check", "Credit card (automatic)", "Bank transfer (automatic)",
+                                      "Electronic check"])
+    monthly_charges = st.slider("What is the customer's monthly charge? :", min_value=0, max_value=118, value=50)
+    total_charges = st.slider('What is the total charge of the customer? :', min_value=0, max_value=8600, value=2000)
+    input_dict = {'gender': gender,
+                  'SeniorCitizen': senior_citizen,
+                  'Partner': partner,
+                  'Dependents': dependents,
+                  'tenure': tenure,
+                  'PhoneService': phone_service,
+                  'MultipleLines': multiple_lines,
+                  'InternetService': internet_service,
+                  'OnlineSecurity': online_security,
+                  'OnlineBackup': online_backup,
+                  'DeviceProtection': device_protection,
+                  'TechSupport': tech_support,
+                  'StreamingTV': streaming_tv,
+                  'StreamingMovies': streaming_movies,
+                  'Contract': contract,
+                  'PaperlessBilling': paperless_billing,
+                  'PaymentMethod': payment_method,
+                  'MonthlyCharges': monthly_charges,
+                  'TotalCharges': total_charges,
+                  }
+    input_data = pd.DataFrame([input_dict])
+
     # generate the prediction for the customer
-    pred = generate_predictions(chosen_customer_data)
-    st.text(pred)
+    if st.button("Predict Churn"):
+        pred = generate_predictions(input_data)
+        if bool(pred):
+            st.text("Customer will churn!")
+        else:
+            st.text("Customer not predicted to churn")
