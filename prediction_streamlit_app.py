@@ -48,6 +48,7 @@ def generate_predictions(test_df):
 if __name__ == '__main__':
     # make the application
     st.title("Customer Churn Prediction")
+    st.text("Enter customer data.")
     # all_customers_training_data = pd.read_csv("./data/holdout_data.csv")
     # all_customers_data = all_customers_training_data.drop(columns="Churn")
     # chosen_customer = st.selectbox("Select the customer you are speaking to:", all_customers_training_data.loc[:, "customerID"])
@@ -79,7 +80,7 @@ if __name__ == '__main__':
                                   ["No", "DSL", "Fiber optic"])
     online_security = st.selectbox('Does the customer have online security? :',
                                   ["No", "Yes", "No internet service"])
-    online_backup = st.selectbox('Does the customer have online? :',
+    online_backup = st.selectbox('Does the customer have online backup? :',
                                   ["No", "Yes", "No internet service"])
     device_protection = st.selectbox('Does the customer have device protection? :',
                                   ["No", "Yes", "No internet service"])
