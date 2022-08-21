@@ -4,7 +4,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 
-df = pd.read_csv("WA_Fn-UseC_-Telco-Customer-Churn.csv")
+df = pd.read_csv("./data/training_data.csv")
 holdout = df.iloc[-100:, :]
 holdout.drop("Churn", axis=1, inplace=True)
 holdout.to_json("holdout_test.json", orient="records")

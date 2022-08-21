@@ -24,7 +24,6 @@ def pre_process_data(df, label_encoder_dict):
             df.loc[:, col] = column_le.transform(df.loc[:, col])
         else:
             continue
-    # TODO: add assert statement that all cols are numeric
     return df
 
 
@@ -49,13 +48,6 @@ if __name__ == '__main__':
     # make the application
     st.title("Customer Churn Prediction")
     st.text("Enter customer data.")
-    # all_customers_training_data = pd.read_csv("./data/holdout_data.csv")
-    # all_customers_data = all_customers_training_data.drop(columns="Churn")
-    # chosen_customer = st.selectbox("Select the customer you are speaking to:", all_customers_training_data.loc[:, "customerID"])
-    # chosen_customer_data = all_customers_data.loc[all_customers_data.loc[:, 'customerID']==chosen_customer]
-    # # visualizing cutomer's data
-    # st.table(chosen_customer_data)
-
 
     # making customer data input
     gender = st.selectbox("Select customer's gender :",
@@ -125,6 +117,10 @@ if __name__ == '__main__':
     if st.button("Predict Churn"):
         pred = generate_predictions(input_data)
         if bool(pred):
-            st.text("Customer will churn!")
+            # making text red if customer will churn
+            churn_text = '<p style="font-family:Courier; color:Red; font-size: 16px;">Customer will churn!</p>'
+            st.markdown(churn_text, unsafe_allow_html=True)
         else:
-            st.text("Customer not predicted to churn")
+            # making text green if customer will not churn
+            not_churn_text = '<p style="font-family:Courier; color:Green; font-size: 16px;">Customer not predicted to churn</p>'
+            st.markdown(not_churn_text, unsafe_allow_html=True)

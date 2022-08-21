@@ -24,7 +24,6 @@ def pre_process_data(df, label_encoder_dict):
             df.loc[:, col] = column_le.transform(df.loc[:, col])
         else:
             continue
-    # TODO: add assert statement that all cols are numeric
     return df
 
 
