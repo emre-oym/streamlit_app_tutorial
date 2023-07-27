@@ -12,4 +12,4 @@ target_bins = data.loc[:, 'Churn'].value_counts()
 st.bar_chart(target_bins)
 
 
-st.write("that's it?")
+st.write("that's it")
